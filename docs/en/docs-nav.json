@@ -349,25 +349,12 @@
               "path": "Module-Development-Basics.md"
             },
             {
-              "text": "Plug-In Modules"
+              "text": "Plug-In Modules",
+              "path": "PlugIn-Modules.md"
             },
             {
-              "text": "Customizing the Application Modules",
-              "path": "Customizing-Application-Modules-Guide.md",
-              "items": [
-                {
-                  "text": "Extending Entities",
-                  "path": "Customizing-Application-Modules-Extending-Entities.md"
-                },
-                {
-                  "text": "Overriding Services",
-                  "path": "Customizing-Application-Modules-Overriding-Services.md"
-                },
-                {
-                  "text": "Overriding the User Interface",
-                  "path": "Customizing-Application-Modules-Overriding-User-Interface.md"
-                }
-              ]
+              "text": "Customizing/Extending Modules",
+              "path": "Customizing-Application-Modules-Guide.md"
             },
             {
               "text": "Best Practices",
@@ -635,38 +622,88 @@
               "path": "UI/Blazor/Localization.md"
             },
             {
-              "text": "Settings",
-              "path": "UI/Blazor/Settings.md"
-            },
-            {
-              "text": "Notification",
-              "path": "UI/Blazor/Notification.md"
-            },
-            {
-              "text": "Message",
-              "path": "UI/Blazor/Message.md"
-            },
-            {
               "text": "Theming",
-              "path": "UI/Blazor/Theming.md",
               "items": [
+                {
+                  "text": "Overall",
+                  "path": "UI/Blazor/Theming.md"
+                },
                 {
                   "text": "The Basic Theme",
                   "path": "UI/Blazor/Basic-Theme.md"
+                },
+                {
+                  "text": "Branding",
+                  "path": "UI/Blazor/Branding.md"
+                },
+                {
+                  "text": "Page Header",
+                  "path": "UI/Blazor/Page-Header.md"
+                },
+                {
+                  "text": "Toolbars",
+                  "path": "UI/Blazor/Toolbars.md"
                 }
               ]
             },
             {
-              "text": "Toolbars",
-              "path": "UI/Blazor/Toolbars.md"
+              "text": "Security",
+              "items": [
+                {
+                  "text": "Authentication",
+                  "path": "UI/Blazor/Authentication.md"
+                },
+                {
+                  "text": "Authorization",
+                  "path": "UI/Blazor/Authorization.md"
+                }
+              ]
             },
             {
-              "text": "Page Alerts",
-              "path": "UI/Blazor/Page-Alerts.md"
+              "text": "Services",
+              "items": [
+                {
+                  "text": "Current User",
+                  "path": "UI/Blazor/CurrentUser.md"
+                },
+                {
+                  "text": "Current Tenant",
+                  "path": "UI/Blazor/CurrentTenant.md"
+                },
+                {
+                  "text": "Notification",
+                  "path": "UI/Blazor/Notification.md"
+                },
+                {
+                  "text": "Message",
+                  "path": "UI/Blazor/Message.md"
+                },
+                {
+                  "text": "Page Alerts",
+                  "path": "UI/Blazor/Page-Alerts.md"
+                },
+                {
+                  "text": "Page Progress",
+                  "path": "UI/Blazor/Page-Progress.md"
+                }
+              ]
             },
             {
-              "text": "Branding",
-              "path": "UI/Blazor/Branding.md"
+              "text": "Other Components",
+              "items": [
+                {
+                  "text": "SubmitButton",
+                  "path": "UI/Blazor/Components/SubmitButton.md"
+                }
+              ]
+            },
+            {
+              "text": "Settings",
+              "path": "UI/Blazor/Settings.md"
+            },
+            {
+              "text": "Error Handling",
+              "path": "UI/Blazor/Error-Handling.md"
             },
             {
               "text": "Customization / Overriding Components",
@@ -677,8 +714,8 @@
               "path": "UI/Blazor/Global-Scripts-Styles.md"
             },
             {
-              "text": "Authentication",
-              "path": "UI/Blazor/Authentication.md"
+              "text": "Routing",
+              "path": "UI/Blazor/Routing.md"
             }
           ]
         },
@@ -707,6 +744,10 @@
                 {
                   "text": "PWA Configuration",
                   "path": "UI/Angular/PWA-Configuration.md"
+                },
+                {
+                  "text": "Unit Testing",
+                  "path": "UI/Angular/Testing.md"
                 }
               ]
             },
@@ -716,6 +757,10 @@
                 {
                   "text": "Config State Service",
                   "path": "UI/Angular/Config-State-Service.md"
+                },
+                {
+                  "text": "Authorization",
+                  "path": "UI/Angular/Authorization.md"
                 },
                 {
                   "text": "HTTP Requests",
@@ -781,6 +826,10 @@
                 {
                   "text": "Toast Overlay",
                   "path": "UI/Angular/Toaster-Service.md"
+                },
+                {
+                  "text": "Page Alerts",
+                  "path": "UI/Angular/Page-Alerts.md"
                 }
               ]
             },

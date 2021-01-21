@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Volo.CmsKit</RootNamespace>
@@ -17,6 +15,7 @@
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.TestBase\Volo.Abp.TestBase.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Authorization\Volo.Abp.Authorization.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Autofac\Volo.Abp.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.BlobStoring\Volo.Abp.BlobStoring.csproj" />
     <ProjectReference Include="..\..\src\Volo.CmsKit.Domain\Volo.CmsKit.Domain.csproj" />
   </ItemGroup>
 

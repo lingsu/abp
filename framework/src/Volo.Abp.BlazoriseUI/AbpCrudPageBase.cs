@@ -8,15 +8,12 @@ using JetBrains.Annotations;
 using Localization.Resources.AbpUi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.AspNetCore.Components;
-using Volo.Abp.AspNetCore.Components.WebAssembly;
 using Volo.Abp.Authorization;
 using Volo.Abp.BlazoriseUI.Components;
-using Volo.Abp.ObjectMapping;
 
 namespace Volo.Abp.BlazoriseUI
 {
@@ -175,7 +172,7 @@ namespace Volo.Abp.BlazoriseUI
 
         protected virtual int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
 
-        protected int CurrentPage;
+        protected int CurrentPage = 1;
         protected string CurrentSorting;
         protected int? TotalCount;
         protected TGetListInput GetListInput = new TGetListInput();
@@ -255,7 +252,7 @@ namespace Volo.Abp.BlazoriseUI
 
             if (GetListInput is IPagedResultRequest pagedResultRequestInput)
             {
-                pagedResultRequestInput.SkipCount = CurrentPage * PageSize;
+                pagedResultRequestInput.SkipCount = (CurrentPage - 1) * PageSize;
             }
 
             if (GetListInput is ILimitedResultRequest limitedResultRequestInput)
@@ -266,17 +263,26 @@ namespace Volo.Abp.BlazoriseUI
             return Task.CompletedTask;
         }
 
+        protected virtual async Task SearchEntitiesAsync()
+        {
+            CurrentPage = 1;
+
+            await GetEntitiesAsync();
+
+            await InvokeAsync(StateHasChanged);
+        }
+
         protected virtual async Task OnDataGridReadAsync(DataGridReadDataEventArgs<TListViewModel> e)
         {
             CurrentSorting = e.Columns
                 .Where(c => c.Direction != SortDirection.None)
                 .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
                 .JoinAsString(",");
-            CurrentPage = e.Page - 1;
+            CurrentPage = e.Page;
 
             await GetEntitiesAsync();
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         protected virtual async Task OpenCreateModalAsync()
@@ -289,7 +295,7 @@ namespace Volo.Abp.BlazoriseUI
 
             // Mapper will not notify Blazor that binded values are changed
             // so we need to notify it manually by calling StateHasChanged
-            await InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(StateHasChanged);
 
             CreateModal.Show();
         }
@@ -311,7 +317,7 @@ namespace Volo.Abp.BlazoriseUI
             EditingEntityId = entity.Id;
             EditingEntity = MapToEditingEntity(entityDto);
 
-            await InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(StateHasChanged);
 
             EditModal.Show();
         }
@@ -356,11 +362,8 @@ namespace Volo.Abp.BlazoriseUI
                 await CheckCreatePolicyAsync();
                 var createInput = MapToCreateInput(NewEntity);
                 await AppService.CreateAsync(createInput);
-                await GetEntitiesAsync();
 
                 await OnCreatedEntityAsync();
-
-                CreateModal.Hide();
             }
         }
 
@@ -369,9 +372,11 @@ namespace Volo.Abp.BlazoriseUI
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnCreatedEntityAsync()
+        protected virtual async Task OnCreatedEntityAsync()
         {
-            return Task.CompletedTask;
+            await GetEntitiesAsync();
+
+            CreateModal.Hide();
         }
 
         protected virtual async Task UpdateEntityAsync()
@@ -383,11 +388,8 @@ namespace Volo.Abp.BlazoriseUI
                 await CheckUpdatePolicyAsync();
                 var updateInput = MapToUpdateInput(EditingEntity);
                 await AppService.UpdateAsync(EditingEntityId, updateInput);
-                await GetEntitiesAsync();
 
                 await OnUpdatedEntityAsync();
-
-                EditModal.Hide();
             }
         }
 
@@ -396,9 +398,11 @@ namespace Volo.Abp.BlazoriseUI
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnUpdatedEntityAsync()
+        protected virtual async Task OnUpdatedEntityAsync()
         {
-            return Task.CompletedTask;
+            await GetEntitiesAsync();
+
+            EditModal.Hide();
         }
 
         protected virtual async Task DeleteEntityAsync(TListViewModel entity)
@@ -430,10 +434,10 @@ namespace Volo.Abp.BlazoriseUI
         }
 
         /// <summary>
-        /// Calls IAuthorizationService.CheckAsync for the given <see cref="policyName"/>.
+        /// Calls IAuthorizationService.CheckAsync for the given <paramref name="policyName"/>.
         /// Throws <see cref="AbpAuthorizationException"/> if given policy was not granted for the current user.
         ///
-        /// Does nothing if <see cref="policyName"/> is null or empty.
+        /// Does nothing if <paramref name="policyName"/> is null or empty.
         /// </summary>
         /// <param name="policyName">A policy name to check</param>
         protected virtual async Task CheckPolicyAsync([CanBeNull] string policyName)
