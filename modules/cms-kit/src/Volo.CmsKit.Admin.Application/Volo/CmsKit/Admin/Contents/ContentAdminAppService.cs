@@ -6,7 +6,6 @@ using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.CmsKit.Contents;
-using Volo.CmsKit.Domain.Volo.CmsKit.Contents;
 using Volo.CmsKit.Permissions;
 
 namespace Volo.CmsKit.Admin.Contents
@@ -54,7 +53,19 @@ namespace Volo.CmsKit.Admin.Contents
 
             await ContentManager.InsertAsync(entity);
 
-            return MapToGetOutputDto(entity);
+            return await MapToGetOutputDtoAsync(entity);
+        }
+
+        public virtual async Task<ContentDto> GetAsync(
+            [NotNull] string entityType,
+            [NotNull] string entityId)
+        {
+            Check.NotNullOrWhiteSpace(entityType, nameof(entityType));
+            Check.NotNullOrWhiteSpace(entityId, nameof(entityId));
+
+            var content = await ContentRepository.GetAsync(entityType, entityId, CurrentTenant?.Id);
+
+            return ObjectMapper.Map<Content, ContentDto>(content);
         }
 
         public async Task<ContentDto> GetAsync(
